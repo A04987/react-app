@@ -1,28 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from "react";
+import axios from "axios";
+import Product from "./Product";
+import AddForm from "./Product/AddForm";
+// import Context from "../Context";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-import data from '../app/data';
-import Product from './Product';
-import AddForm from './Product/AddForm';
+// function reducer(state, action) {
+//   switch(action.type) {
+//     case "SET":
+//       return action.payload;
+//     case "ADD":
+//       return [...state, action.payload];
+//     default:
+//       return state;
+//   }
+// }
 
-let currentProductId = 9;
 
-export default function Home() {
-  const [products, setProducts] = useState(data);
+// let currentProductId = 9;
 
-  function addProduct(product) {
-    const newProduct = { id: ++currentProductId, ...product };
-    setProducts([...products, newProduct]);
-  }
+function Home ({className, products}) {
 
-  return (
-    <div>
-      <h1>New Products</h1>
-      <ul className="Home__products">
-        {products.map((product) => (
-          <Product key={product.id} item={product} />
-        ))}
-      </ul>
-      <AddForm addProduct={addProduct} />
-    </div>
-  );
+    return (
+    < div className = {className} >
+    <h1>Products list</h1>
+       <ul className="Home__products">
+         {products.map((product) => (
+           <Product key={product.id} item={product} />
+         ))}
+       </ul>
+   </div>
+    );
 }
+
+Home.propTypes = {
+  className: PropTypes.string.isRequired,
+  products: PropTypes.array.isRequired
+};
+  
+
+export default styled(Home)`
+  .Home__products {
+        display: flex;
+        flex-wrap: wrap;
+
+        list-style-type: none;
+        padding: 0;
+        margin: 0 -12px;
+  }
+`;
